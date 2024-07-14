@@ -1,0 +1,21 @@
+name: "STAGING DEPLOY"
+
+on:
+  push:
+    branches:
+      - staging
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    uses: ./.github/workflows/terraform.yml
+    with:
+      environment: staging
+      aws-assume-role-arn: "arn:aws:iam::054783083617:role/gh-actions-igorserafim15-pipeline"
+      aws-region: "us-east-1"
+      aws-statefile-s3-bucket: "journey-us-east-1-terraform-statefile"
+      aws-lock-dynamodb-table: "journey-us-east-1-terraform-lock"
+  
