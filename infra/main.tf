@@ -1,7 +1,3 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = var.bucket_name
-}
-
 resource "aws_s3_bucket" "remote-state" {
   bucket = "journey-us-east-1-terraform-statefile"
 
@@ -32,4 +28,14 @@ resource "aws_dynamodb_table" "lock-table" {
     name = "LockID"
     type = "S"
   }
+}
+
+resource "aws_s3_bucket" "bucket" {
+  bucket = var.bucket_name
+
+  depends_on = [
+    aws_s3_bucket.remote-state,
+    aws_s3_bucket_versioning.remote-state-bucket-versioning,
+    aws_dynamodb_table.lock-table,
+  ]
 }
