@@ -1,5 +1,9 @@
-resource "aws_s3_bucket" "remote-state" {
+resource "aws_s3_bucket" "bucket" {
   bucket = var.bucket_name
+}
+
+resource "aws_s3_bucket" "remote-state" {
+  bucket = "journey-us-east-1-terraform-statefile"
 
   lifecycle {
     prevent_destroy = true
@@ -19,7 +23,7 @@ resource "aws_s3_bucket_versioning" "remote-state-bucket-versioning" {
 }
 
 resource "aws_dynamodb_table" "lock-table" {
-  name = "tflock-${aws_s3_bucket.remote-state.bucket}"
+  name = "journey-us-east-1-terraform-lock"
   read_capacity = 5
   write_capacity = 5
   hash_key = "LockID"
