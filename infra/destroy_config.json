@@ -1,4 +1,5 @@
 {
-  "dev": false,
-  "staging": false
+  "prod": true,
+  "dev": true,
+  "staging": true
 }
